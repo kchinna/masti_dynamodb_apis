@@ -286,9 +286,9 @@ app.post("/login/:email/:password", async (req, res) => {
             }
         });
         if (JSON.stringify(ret) == "{}") {
-            return res.send(false)
+            return res.send(false);
         }
-        return res.send(true)
+        return res.send(true);
     }
     return res.status(500).json({ success, message: "Error Occured !!!" });
 });
