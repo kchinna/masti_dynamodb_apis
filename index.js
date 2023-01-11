@@ -272,6 +272,27 @@ app.get('/schedule/:team', async (req, res) => {
     return res.status(500).json({ success: false, message: "Error Occured !!!" });
 });
 
+// LOGIN APIs
+
+app.post("/login/:email/:password", async (req, res) => {
+    const { success, data } = await readItems(PARTICIPANT_TABLE_NAME);
+    if (success) {
+        let email = req.params.email;
+        let password = req.params.password;
+        let ret = {};
+        data.forEach(item => {
+            if (item.email == email && item.password == password) {
+                ret = item;
+            }
+        });
+        if (JSON.stringify(ret) == "{}") {
+            return res.send(false)
+        }
+        return res.send(true)
+    }
+    return res.status(500).json({ success, message: "Error Occured !!!" });
+});
+
 
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`);
