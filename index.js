@@ -70,6 +70,28 @@ app.use(bodyParser.json());
 // PARTICIPANT REGISTRATION APIs
 // WILL TARGET THE REGISTERED USERS DATABASE
 
+app.post("/participant", async (req, res) => {
+    const password_param = {
+      length: 5,
+      uppercase: false,
+      numbers: true
+    };
+    const item = {
+      email: req.body.email,
+      password: generator.generate(password_param),
+      name: req.body.name,
+      team: req.body.team,
+      hotel: req.body.hotel,
+      stamp: req.body.stamp,
+      checked_in: false
+    };
+    const { success, data } = await addItem(item, PARTICIPANT_TABLE_NAME);
+    if (success) {
+      return res.json({ success, data });
+    }
+    return res.status(500).json({ success: false, message: "Error Occured !!!" });
+  });
+
 
 // ANNOUNCEMENT APIs
 // WILL TARGET THE ANNOUNCEMENTS DATABASE
