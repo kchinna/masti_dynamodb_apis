@@ -107,6 +107,14 @@ app.delete("/participant/:email", async (req, res) => {
   });
 });
 
+app.get("/participant", async (req, res) => {
+  const { success, data } = await readItems(PARTICIPANT_TABLE_NAME);
+  if (success) {
+    return res.json({ success, data });
+  }
+  return res.status(500).json({ success: false, message: "Error Occured !!!" });
+});
+
 
 // ANNOUNCEMENT APIs
 // WILL TARGET THE ANNOUNCEMENTS DATABASE
