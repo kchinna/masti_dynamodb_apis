@@ -115,6 +115,21 @@ app.get("/participant", async (req, res) => {
   return res.status(500).json({ success: false, message: "Error Occured !!!" });
 });
 
+app.get("/participant/:email", async (req, res) => {
+  const { success, data } = await readItems(PARTICIPANT_TABLE_NAME);
+  if (success) {
+    let email = req.params.email;
+    let ret = {};
+    data.forEach(item => {
+      if (item.email == email) {
+        ret = item;
+      }
+    });
+    return res.json({success, item: ret});
+  }
+  return res.status(500).json({ success, message: "Error Occured !!!" });
+});
+
 
 // ANNOUNCEMENT APIs
 // WILL TARGET THE ANNOUNCEMENTS DATABASE
