@@ -3,6 +3,7 @@ import AWS from "aws-sdk";
 import bodyParser from "body-parser";
 import "dotenv/config";
 import { v4 as uuidv4 } from 'uuid';
+import generator from "generate-password";
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -12,12 +13,13 @@ const ddb = new AWS.DynamoDB.DocumentClient({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
-const REG_TABLE_NAME = process.env.REG_TABLE;
+const PARTICIPANT_TABLE_NAME = process.env.PARTICIPANT_TABLE;
 const ANNOUNCE_TABLE_NAME = process.env.ANNOUNCE_TABLE;
 const SCHEDULE_TABLE_NAME = process.env.SCHEDULE_TABLE;
 
 
-// CRUD Functions to the provided DynamoDB table
+// Blanket CRUD Functions to the provided DynamoDB table
+// Created for reusability
 
 const addItem = async (data = {}, table) => {
   var params = {
@@ -67,38 +69,6 @@ app.use(bodyParser.json());
 
 // PARTICIPANT REGISTRATION APIs
 // WILL TARGET THE REGISTERED USERS DATABASE
-
-app.post("/regparticipant", async (req, res) => {
-  // const item = {
-  //   email: req.body.email,
-  //   name: req.body.first_name,
-  //   timestamp: new Date().toISOString()
-  // };
-  const { success, data } = await addItem(item, REG_TABLE_NAME);
-  if (success) {
-    return res.json({ success, data });
-  }
-  return res.status(500).json({ success: false, message: "Error Occured !!!" });
-});
-
-app.delete("/regparticipant/:id", async (req, res) => {
-  const { success, data } = await deleteItem(
-    parseInt(req.params.id),
-    REG_TABLE_NAME
-  );
-  if (success) {
-    return res.json({ success, data });
-  }
-  return res.status(500).json({ success: false, message: "Error Occured !!!" });
-});
-
-app.get("/regparticipant", async (req, res) => {
-  const { success, data } = await readItems(REG_TABLE_NAME);
-  if (success) {
-    return res.json({ success, data });
-  }
-  return res.status(500).json({ success: false, message: "Error Occured !!!" });
-});
 
 
 // ANNOUNCEMENT APIs
@@ -157,7 +127,6 @@ app.post("/schedule", async (req, res) => {
   if (success) {
     return res.json({ success, data });
   }
-  console.log("hi")
   return res.status(500).json({ success: false, message: data });
 });
 
@@ -221,10 +190,10 @@ app.delete("/schedule", async (req, res) => {
   return res.status(500).json({ success: false, message: "Error Occured !!!" });
 });
 
-app.get('/schedule', async (req, res) => {
+app.get('/schedule/:team', async (req, res) => {
   const { success, data } = await readItems(SCHEDULE_TABLE_NAME);
   if (success) {
-    let team = req.query.team;
+    let team = req.params.team;
     let teamData = [];
     data.forEach(item => {
       if (item.team == team) {
