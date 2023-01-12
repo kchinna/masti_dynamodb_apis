@@ -83,7 +83,7 @@ app.post("/participant", async (req, res) => {
         team: req.body.team,
         hotel: req.body.hotel,
         stamp: req.body.stamp,
-        is_veg: req.body.is_veg,
+        diet: req.body.diet,
         checked_in: false
     };
     const { success, data } = await addItem(item, PARTICIPANT_TABLE_NAME);
