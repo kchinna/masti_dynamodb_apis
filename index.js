@@ -119,7 +119,7 @@ app.get("/participant", async (req, res) => {
 app.get("/participant/:email", async (req, res) => {
     const { success, data } = await readItems(PARTICIPANT_TABLE_NAME);
     if (success) {
-        let email = req.params.email;
+        let email = req.params.email.toLowerCase();
         let ret = {};
         data.forEach(item => {
             if (item.email == email) {
