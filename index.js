@@ -18,7 +18,7 @@ const ANNOUNCE_TABLE_NAME = process.env.ANNOUNCE_TABLE;
 const SCHEDULE_TABLE_NAME = process.env.SCHEDULE_TABLE;
 
 
-app.get("/t", async (req, res) => {
+app.get("/test", async (req, res) => {
     return res.json({ message:"hello world" });
 });
 
