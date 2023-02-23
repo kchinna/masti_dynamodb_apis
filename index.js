@@ -18,6 +18,11 @@ const ANNOUNCE_TABLE_NAME = process.env.ANNOUNCE_TABLE;
 const SCHEDULE_TABLE_NAME = process.env.SCHEDULE_TABLE;
 
 
+app.get("/t", async (req, res) => {
+    return res.json({ message:"hello world" });
+});
+
+
 // Blanket CRUD Functions to the provided DynamoDB table
 // Created for reusability
 
