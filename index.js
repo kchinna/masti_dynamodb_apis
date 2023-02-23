@@ -17,6 +17,11 @@ const PARTICIPANT_TABLE_NAME = process.env.PARTICIPANT_TABLE;
 const ANNOUNCE_TABLE_NAME = process.env.ANNOUNCE_TABLE;
 const SCHEDULE_TABLE_NAME = process.env.SCHEDULE_TABLE;
 
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:19006');
+    next();
+});
+
 
 app.get("/test", async (req, res) => {
     return res.json({ message:"hello world" });
