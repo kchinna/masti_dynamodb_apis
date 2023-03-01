@@ -297,7 +297,7 @@ app.post("/login/:email/:password", async (req, res) => {
         let password = req.params.password;
         let ret = {};
         data.forEach(item => {
-            if (item.email == email && item.password == password) {
+            if (item.email.toLowerCase() == email.toLowerCase() && item.password == password) {
                 ret = item;
             }
         });
