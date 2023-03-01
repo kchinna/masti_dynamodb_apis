@@ -137,7 +137,7 @@ app.get("/participant/:email", async (req, res) => {
         let email = req.params.email.toLowerCase();
         let ret = {};
         data.forEach(item => {
-            if (item.email == email) {
+            if (item.email.toLowerCase() == email.toLowerCase()) {
                 ret = item;
             }
         });
