@@ -86,16 +86,21 @@ app.post("/participant", async (req, res) => {
         uppercase: false,
         numbers: true
     };
+    // const item = {
+    //     email: req.body.email,
+    //     password: generator.generate(password_param),
+    //     name: req.body.name,
+    //     team: req.body.team,
+    //     hotel: req.body.hotel,
+    //     stamp: req.body.stamp,
+    //     diet: req.body.diet,
+    //     checked_in: false
+    // };
     const item = {
-        email: req.body.email,
-        password: generator.generate(password_param),
-        name: req.body.name,
+        email: req.body.team,
         team: req.body.team,
-        hotel: req.body.hotel,
-        stamp: req.body.stamp,
-        diet: req.body.diet,
-        checked_in: false
-    };
+        password: generator.generate(password_param)
+    }
     const { success, data } = await addItem(item, PARTICIPANT_TABLE_NAME);
     if (success) {
         return res.json({ success, data });
